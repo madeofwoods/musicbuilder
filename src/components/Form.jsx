@@ -61,7 +61,7 @@ const Form = () => {
   const loadNotes = () => {
     const output = [];
     for (let i = 0; i < numberOfNotes; i++) {
-      output.push({ id: i, isCorrect: true, beat: beats * i, value: "" });
+      output.unshift({ id: i, isCorrect: true, beat: beats * i, value: "" });
     }
     return output;
   };
@@ -72,7 +72,6 @@ const Form = () => {
 
   useEffect(() => {
     setOutputData(collectData(sData, dData, fData));
-    console.log(beats)
   }, [sData, dData, fData, beats]);
 
   const handleChange = (e, id, data, setData) => {
@@ -105,7 +104,7 @@ const Form = () => {
         <div className="box">
           <div className="form--container">
             <div className="row--one">
-              {sData.reverse().map((el) => (
+              {sData.map((el) => (
                 <>
                   <div className="input--container" key={el.id}>
                     <Note
@@ -135,7 +134,7 @@ const Form = () => {
               ))}
             </div>
             <div className="row--two">
-              {dData.reverse().map((el) => (
+              {dData.map((el) => (
                 <>
                   <div className="input--container" 
                       key={el.id}>
@@ -166,7 +165,7 @@ const Form = () => {
               ))}
             </div>
             <div className="row--three">
-              {fData.reverse().map((el) => (
+              {fData.map((el) => (
                 <>
                   <div className="input--container" 
                       key={el.id}>
