@@ -49,7 +49,7 @@ const Form = () => {
   };
 
   useEffect(() => {
-    ref.current?.scrollIntoView({ behaviour: "smooth" });
+    ref.current?.scrollIntoView({ behaviour: "smooth", block: "end" });
     document.addEventListener("keydown", handleKeyDown)
 
     return () => {

@@ -28,6 +28,20 @@
   max-height: 80%;
   overflow: scroll;
   background-color: rgb(48, 48, 48);
+  animation: box 0.85s linear;
+}
+
+@keyframes box {
+  0% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity:1;
+  }
+  
 }
 
 .form--container {
