@@ -4,6 +4,8 @@
   margin: 0;
 }
 
+a { color: inherit !important; } 
+
 
 .Form {
   width: 100vw;
@@ -93,6 +95,7 @@ input[type='number']::-webkit-outer-spin-button {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: sticky;
 }
 
 .input--container {
@@ -118,6 +121,10 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .output {
+  position: relative;
+  font-family: 'Courier Prime', monospace;
+  font-weight: 400;
+  font-size: 0.85rem;
   padding: 5px 0px;
   text-align: center;
   width: 400px;
@@ -152,4 +159,62 @@ input[type='number']::-webkit-outer-spin-button {
   gap: 10px;
 
 
+}
+
+.download--icons {
+  display: flex;
+  gap: 80px;
+}
+
+.download--icon {
+  border: 1px solid rgb(167, 166, 166);
+  border-radius: 5px;;
+  padding: 3px;
+  transform: scale(2);
+  cursor: pointer;
+}
+
+.download--icon:hover {
+  border: 1px solid rgb(246, 246, 246);
+}
+
+.copied--contianer {
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.copied--image {
+  width: 150px;
+  animation: copied 2s linear;
+}
+
+.copied--text {
+  background-color: rgb(255, 255, 255);
+  padding: 2px 10px;
+  animation: copied 2s linear;
+  color: rgb(12, 12, 12);
+  text-align: center;
+}
+
+@keyframes copied {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
 }
