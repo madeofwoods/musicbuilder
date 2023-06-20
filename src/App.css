@@ -54,6 +54,7 @@ a { color: inherit !important; }
 
 .row--one, .row--two, .row--three {
   /* flex: 0, 0, calc(100%/3); */
+  margin-top: 20px;
   width: calc(100%/3);
   height: inherit;
   display: flex;
