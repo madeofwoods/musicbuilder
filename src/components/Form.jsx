@@ -296,14 +296,3 @@ const Form = () => {
 };
 
 export default Form;
-
-// <div className="row--one">
-// {sData.reverse().map((el) => (
-//   <>
-//   <div className="input--container">
-//   <Note color={el.value} type="number" min={0} className="input" value={el.value} key={el.id} onChange={(e) => handleChange(e, el.id, sData, setSData)} />
-//   <ToggleOffIcon />
-//   </div>
-//   </>
-// ))}
-// </div>
