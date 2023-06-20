@@ -207,14 +207,14 @@ const Form = () => {
       </div>
       <div className="output--container">
         <div className="buttons">
-          <Button
+          {/* <Button
             number={0.25}
             current={beats}
             className="button"
             onClick={() => setBeats(0.25)}
           >
             0.25
-          </Button>
+          </Button> */}
           <Button
             number={0.5}
             current={beats}
