@@ -27,6 +27,13 @@ export const Button = styled.button`
   text-align:center;
   border: none;
   outline: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  justify-content: center;
 
   &&:focus {
     border: none;
