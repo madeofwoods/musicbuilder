@@ -6,7 +6,9 @@ export const Note = styled.input`
   width: 70px;
   height: 40px;
   color: black;
-  border: ${(props) => props.beat % 4 == 0 ? "2px solid #b1b1f9" : "none"};
+  border: ${(props) => (props.beat % 4 == 0 ? "4px solid #b1b1f9" : "none")};
+  /* box-sizing: ${(props) =>
+    props.beat % 4 == 0 ? "content-box" : "border-box"}; */
   border-radius: 3px;
   display: flex;
   align-items: center;
@@ -21,10 +23,11 @@ export const Note = styled.input`
 `;
 
 export const Button = styled.button`
-  background-color: ${(props) => (props.current == props.number ? "#9f9d9d" : "black")};
+  background-color: ${(props) =>
+    props.current == props.number ? "#9f9d9d" : "black"};
   width: 75px;
   height: 40px;
-  text-align:center;
+  text-align: center;
   border: none;
   outline: none;
   font-size: 1.1rem;
@@ -34,9 +37,10 @@ export const Button = styled.button`
   border-radius: 8px;
   cursor: pointer;
   justify-content: center;
+  color: white;
 
   &&:focus {
     border: none;
-  outline: none;
+    outline: none;
   }
 `;
