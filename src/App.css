@@ -31,12 +31,15 @@ a {
 }
 
 .box {
-  width: 400px;
+  /* width: 400px; */
   height: 800px;
   max-height: 80%;
-  overflow: scroll;
-  background-color: rgb(48, 48, 48);
+  overflow-y: scroll;
+  overflow-x: visible;
   animation: box 0.85s linear;
+  position: relative;
+  padding-right: 17px;
+  overflow-anchor: auto;
 }
 
 @keyframes box {
@@ -61,12 +64,20 @@ a {
 .row--three {
   /* flex: 0, 0, calc(100%/3); */
   margin-top: 20px;
-  width: calc(100% / 3);
+  width: 133px;
   height: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  background-color: rgb(48, 48, 48);
+}
+
+.add--remove--row {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px;
 }
 
 .input {
@@ -96,7 +107,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .ref {
-  width: 100%;
+  width: 400px;
   height: 60px;
   background-color: black;
   color: rgb(235, 235, 235);
@@ -114,10 +125,10 @@ input[type="number"]::-webkit-outer-spin-button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* background-color: rgb(75, 75, 76); */
-  /* width: 70px;
+  background-color: rgb(60, 60, 162);
+  width: 100%;
   height: 50px;
-  background-color: blue; */
+  background-color: blue;
 }
 
 .output--container {
@@ -151,6 +162,10 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .toggle--icon {
   cursor: pointer;
+  position: absolute;
+  left: 50%;
+  top: 114%;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .commands {
@@ -229,4 +244,13 @@ input[type="number"]::-webkit-outer-spin-button {
   100% {
     opacity: 1;
   }
+}
+
+.add--remove {
+  display: flex;
+  flex-direction: column;
+}
+
+.add--remove--icon {
+  transform: scale(0.8);
 }

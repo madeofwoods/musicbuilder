@@ -1,10 +1,18 @@
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Button, Note } from "../styles/Form.styled";
+import {
+  AddRemoveContainer,
+  Button,
+  Margin,
+  Note,
+  NoteContainer,
+} from "../styles/Form.styled";
 import JSON5 from "json5";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import DownloadIcon from "@mui/icons-material/Download";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -19,6 +27,7 @@ const Form = () => {
   const numberOfNotes = 200;
   const [outputData, setOutputData] = useState([]);
   const ref = useRef();
+  const [highestNoteID, setHighestNoteID] = useState(numberOfNotes);
 
   const collectData = (sData, dData, fData) => {
     let sClone = [...sData];
@@ -110,14 +119,84 @@ const Form = () => {
     }
   }, [isCopied]);
 
+  const handleAddRow = (beat) => {
+    let sClone = [...sData];
+    let dClone = [...dData];
+    let fClone = [...fData];
+
+    sClone.forEach((el) => (el.beat = el.beat > beat ? el.beat + 1 : el.beat));
+    dClone.forEach((el) => (el.beat = el.beat > beat ? el.beat + 1 : el.beat));
+    fClone.forEach((el) => (el.beat = el.beat > beat ? el.beat + 1 : el.beat));
+    setSData(
+      [
+        ...sClone,
+        {
+          id: highestNoteID,
+          isCorrect: true,
+          beat: beat + 1,
+          value: "",
+        },
+      ].sort((a, b) => b.beat - a.beat)
+    );
+    setDData(
+      [
+        ...dClone,
+        {
+          id: highestNoteID,
+          isCorrect: true,
+          beat: beat + 1,
+          value: "",
+        },
+      ].sort((a, b) => b.beat - a.beat)
+    );
+    setFData(
+      [
+        ...fClone,
+        {
+          id: highestNoteID,
+          isCorrect: true,
+          beat: beat + 1,
+          value: "",
+        },
+      ].sort((a, b) => b.beat - a.beat)
+    );
+    setHighestNoteID((prev) => prev + 1);
+    console.log(sData);
+  };
+
+  const handleRemoveRow = (beat) => {
+    let sClone = [...sData];
+    let dClone = [...dData];
+    let fClone = [...fData];
+
+    sClone.splice(sClone.length - 1 - beat, 1);
+    sClone.forEach((el) => (el.beat = el.beat > beat ? el.beat - 1 : el.beat));
+
+    dClone.splice(dClone.length - 1 - beat, 1);
+    dClone.forEach((el) => (el.beat = el.beat > beat ? el.beat - 1 : el.beat));
+
+    fClone.splice(fClone.length - 1 - beat, 1);
+    fClone.forEach((el) => (el.beat = el.beat > beat ? el.beat - 1 : el.beat));
+
+    setSData([...sClone]);
+    setDData(dClone);
+    setFData(fClone);
+    console.log(sClone);
+  };
+
   return (
     <div className="Form">
       <div className="box--container">
         <div className="box">
           <div className="form--container">
+            {/* <Margin isShowing={isShowing}></Margin> */}
             <div className="row--one">
               {sData.map((el) => (
-                <div className="input--container" key={el.id}>
+                <NoteContainer
+                  beat={el.beat}
+                  key={el.id}
+                  newRowAdded={highestNoteID}
+                >
                   <Note
                     color={el.value}
                     isCorrect={el.isCorrect}
@@ -140,12 +219,16 @@ const Form = () => {
                       onClick={(e) => handleClick(e, el.id, sData, setSData)}
                     />
                   )}
-                </div>
+                </NoteContainer>
               ))}
             </div>
             <div className="row--two">
               {dData.map((el) => (
-                <div className="input--container" key={el.id}>
+                <NoteContainer
+                  beat={el.beat}
+                  key={el.id}
+                  newRowAdded={highestNoteID}
+                >
                   <Note
                     color={el.value}
                     isCorrect={el.isCorrect}
@@ -168,12 +251,16 @@ const Form = () => {
                       onClick={(e) => handleClick(e, el.id, dData, setDData)}
                     />
                   )}
-                </div>
+                </NoteContainer>
               ))}
             </div>
             <div className="row--three">
               {fData.map((el) => (
-                <div className="input--container" key={el.id}>
+                <NoteContainer
+                  beat={el.beat}
+                  key={el.id}
+                  newRowAdded={highestNoteID}
+                >
                   <Note
                     color={el.value}
                     isCorrect={el.isCorrect}
@@ -196,9 +283,25 @@ const Form = () => {
                       onClick={(e) => handleClick(e, el.id, fData, setFData)}
                     />
                   )}
-                </div>
+                </NoteContainer>
               ))}
             </div>
+            <Margin isShowing={isShowing}>
+              {fData.map((el) => (
+                <AddRemoveContainer beat={el.beat} key={el.id}>
+                  <div className="add--remove">
+                    <AddCircleOutlineIcon
+                      className="add--remove--icon"
+                      onClick={() => handleAddRow(el.beat)}
+                    />
+                    <RemoveCircleOutlineIcon
+                      className="add--remove--icon"
+                      onClick={() => handleRemoveRow(el.beat)}
+                    />
+                  </div>
+                </AddRemoveContainer>
+              ))}
+            </Margin>
           </div>
           <div ref={ref} className="ref">
             START
@@ -266,12 +369,12 @@ const Form = () => {
         <div className="output">
           {outputData.length == 0 ? "" : JSON5.stringify(outputData, null, 0)}
           {isCopied ? (
-              <div className="copied--contianer">
-                <img src={image} className="copied--image" />
-                <div className="copied--text">
-                  <p>copied to clipboard</p>
-                </div>
+            <div className="copied--contianer">
+              <img src={image} className="copied--image" />
+              <div className="copied--text">
+                <p>copied to clipboard</p>
               </div>
+            </div>
           ) : null}
         </div>
         <div className="download--icons">
