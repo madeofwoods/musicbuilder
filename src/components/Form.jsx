@@ -2,9 +2,13 @@ import { useRef, useState, useEffect } from "react";
 import {
   AddRemoveContainer,
   Button,
+  FileUpload,
+  FileUploadContainer,
   Margin,
   Note,
   NoteContainer,
+  SubmitButton,
+  UploadInputWindow,
 } from "../styles/Form.styled";
 import JSON5 from "json5";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
@@ -12,6 +16,7 @@ import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import DownloadIcon from "@mui/icons-material/Download";
+import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -28,6 +33,7 @@ const Form = () => {
   const [outputData, setOutputData] = useState([]);
   const ref = useRef();
   const [highestNoteID, setHighestNoteID] = useState(numberOfNotes);
+  const [formInput, setFormInput] = useState("");
 
   const collectData = (sData, dData, fData) => {
     let sClone = [...sData];
@@ -183,6 +189,77 @@ const Form = () => {
     setDData(dClone);
     setFData(fClone);
     console.log(sClone);
+  };
+
+  const handleSubmit = () => {
+    setPopupActive(false);
+    let sNew = loadNotes();
+    let dNew = loadNotes();
+    let fNew = loadNotes();
+    let formData = JSON5.parse(formInput);
+
+    let sFormData = formData
+      .filter((el) => el.letter == "s")
+      .reduce(
+        (obj, item) => ({
+          ...obj,
+          [item.delay - 8]: { value: item.no, isCorrect: item.isCorrect },
+        }),
+        {}
+      );
+    let dFormData = formData
+      .filter((el) => el.letter == "d")
+      .reduce(
+        (obj, item) => ({
+          ...obj,
+          [item.delay - 8]: { value: item.no, isCorrect: item.isCorrect },
+        }),
+        {}
+      );
+    let fFormData = formData
+      .filter((el) => el.letter == "f")
+      .reduce(
+        (obj, item) => ({
+          ...obj,
+          [item.delay - 8]: { value: item.no, isCorrect: item.isCorrect },
+        }),
+        {}
+      );
+
+    sNew = sNew.map((el) =>
+      sFormData.hasOwnProperty(el.beat)
+        ? {
+            id: el.id,
+            isCorrect: sFormData[el.beat].isCorrect,
+            beat: el.beat,
+            value: sFormData[el.beat].value,
+          }
+        : el
+    );
+    dNew = dNew.map((el) =>
+      dFormData.hasOwnProperty(el.beat)
+        ? {
+            id: el.id,
+            isCorrect: dFormData[el.beat].isCorrect,
+            beat: el.beat,
+            value: dFormData[el.beat].value,
+          }
+        : el
+    );
+    fNew = fNew.map((el) =>
+      fFormData.hasOwnProperty(el.beat)
+        ? {
+            id: el.id,
+            isCorrect: fFormData[el.beat].isCorrect,
+            beat: el.beat,
+            value: fFormData[el.beat].value,
+          }
+        : el
+    );
+
+    setSData([...sNew]);
+    setDData([...dNew]);
+    setFData([...fNew]);
   };
 
   return (
@@ -397,9 +474,28 @@ const Form = () => {
               onClick={() => setIsCopied(true)}
             />
           </CopyToClipboard>
-          {/* <UploadFileIcon className="download--icon"></UploadFileIcon> */}
+          <UploadFileIcon
+            className="download--icon"
+            onClick={() => setPopupActive(true)}
+          ></UploadFileIcon>
         </div>
       </div>
+      {popupActive && (
+        <FileUploadContainer>
+          <FileUpload>
+            <CloseIcon
+              className="close--icon"
+              onClick={() => setPopupActive(false)}
+            ></CloseIcon>
+            <h2>PASTE LEVEL BELOW</h2>
+            <UploadInputWindow
+              value={formInput}
+              onChange={(e) => setFormInput(e.target.value)}
+            ></UploadInputWindow>
+            <SubmitButton onClick={() => handleSubmit()}>UPLOAD</SubmitButton>
+          </FileUpload>
+        </FileUploadContainer>
+      )}
     </div>
   );
 };

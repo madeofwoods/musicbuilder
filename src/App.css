@@ -255,3 +255,19 @@ input[type="number"]::-webkit-outer-spin-button {
   transform: scale(0.8);
   cursor: pointer;
 }
+
+.close {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border: 1px solid red;
+}
+
+.close--icon {
+  position: absolute;
+  left: 96%;
+  top: 1%;
+  transform: translateX(-50%);
+  color: rgb(251, 251, 251);
+  cursor: pointer;
+}

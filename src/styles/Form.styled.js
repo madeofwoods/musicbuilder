@@ -94,3 +94,60 @@ export const Button = styled.button`
     outline: none;
   }
 `;
+
+export const FileUploadContainer = styled.div`
+  position: absolute;
+  background-color: #201f24;
+  border: 1px solid #b2b2b2;
+  border-radius: 5px;
+`;
+
+export const FileUpload = styled.div`
+  position: relative;
+  /* width: 500px;
+  height: 700px; */
+  /* background-color: #201f24;
+  border: 1px solid #b2b2b2;
+  border-radius: 5px; */
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  gap: 20px;
+`;
+
+export const UploadInputWindow = styled.textarea`
+  width: 400px;
+  height: 500px;
+  background-color: gray;
+  border: 1px solid white;
+  overflow: scroll;
+  padding: 15px 5px;
+  color: white;
+  text-align: center;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: start; */
+`;
+
+export const SubmitButton = styled.button`
+  padding: 5px 10px;
+  text-align: center;
+  border: none;
+  outline: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  justify-content: center;
+  background-color: #555353;
+  color: white;
+
+  &&:hover {
+    background-color: #8b8989;
+  }
+`;
