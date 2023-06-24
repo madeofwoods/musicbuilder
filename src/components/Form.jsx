@@ -193,6 +193,7 @@ const Form = () => {
 
   const handleSubmit = () => {
     setPopupActive(false);
+    setBeats(1);
     let sNew = loadNotes();
     let dNew = loadNotes();
     let fNew = loadNotes();
@@ -260,6 +261,16 @@ const Form = () => {
     setSData([...sNew]);
     setDData([...dNew]);
     setFData([...fNew]);
+  };
+
+  const handleInput = (e) => {
+    setFormInput(e.target.value);
+    setBeats(1);
+  };
+
+  const handlePopup = () => {
+    setPopupActive(true);
+    setBeats(1);
   };
 
   return (
@@ -476,7 +487,7 @@ const Form = () => {
           </CopyToClipboard>
           <UploadFileIcon
             className="download--icon"
-            onClick={() => setPopupActive(true)}
+            onClick={() => handlePopup()}
           ></UploadFileIcon>
         </div>
       </div>
@@ -490,7 +501,7 @@ const Form = () => {
             <h2>PASTE LEVEL BELOW</h2>
             <UploadInputWindow
               value={formInput}
-              onChange={(e) => setFormInput(e.target.value)}
+              onChange={(e) => handleInput(e)}
             ></UploadInputWindow>
             <SubmitButton onClick={() => handleSubmit()}>UPLOAD</SubmitButton>
           </FileUpload>
