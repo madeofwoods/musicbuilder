@@ -2,11 +2,11 @@ import styled, { keyframes } from "styled-components";
 
 const noteAnimation = keyframes`
 0% {
-  background-color: #2b2735
+  background-color: #868688
 }
-20% {
-  background-color: #2b2735
-}
+/* 20% {
+  background-color: #60557d
+} */
 100% {
   background-color: none
 }
@@ -23,7 +23,8 @@ export const NoteContainer = styled.div`
   height: 50px;
   background-color: ${(props) =>
     props.beat % 4 == 0 ? "rgb(89, 64, 128, 0.65)" : "none"};
-  animation-name: ${(props) => props.newRowAdded === props.id && noteAnimation};
+  animation-name: ${(props) =>
+    props.newRowAdded === props.id + 1 && noteAnimation};
   animation-duration: 0.8s;
 `;
 

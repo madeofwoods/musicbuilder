@@ -1,6 +1,4 @@
-import { useRef } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   AddRemoveContainer,
   Button,
@@ -162,6 +160,7 @@ const Form = () => {
     );
     setHighestNoteID((prev) => prev + 1);
     console.log(sData);
+    console.log(highestNoteID);
   };
 
   const handleRemoveRow = (beat) => {
@@ -195,6 +194,7 @@ const Form = () => {
                 <NoteContainer
                   beat={el.beat}
                   key={el.id}
+                  id={el.id}
                   newRowAdded={highestNoteID}
                 >
                   <Note
@@ -227,6 +227,7 @@ const Form = () => {
                 <NoteContainer
                   beat={el.beat}
                   key={el.id}
+                  id={el.id}
                   newRowAdded={highestNoteID}
                 >
                   <Note
@@ -259,6 +260,7 @@ const Form = () => {
                 <NoteContainer
                   beat={el.beat}
                   key={el.id}
+                  id={el.id}
                   newRowAdded={highestNoteID}
                 >
                   <Note
