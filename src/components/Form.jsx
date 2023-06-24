@@ -13,12 +13,14 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import DownloadIcon from "@mui/icons-material/Download";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import image from "../assets/businessman.png";
 
 const Form = () => {
   const [isShowing, setIsShowing] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
+  const [popupActive, setPopupActive] = useState(false);
   // const [incorrect, setIncorrect] = useState(false);
   const [beats, setBeats] = useState(1);
   // const [numberOfNotes, setNumberOfNotes] = useState(200);
@@ -249,6 +251,7 @@ const Form = () => {
                   ) : (
                     <ToggleOnIcon
                       className="toggle--icon"
+                      up
                       onClick={(e) => handleClick(e, el.id, dData, setDData)}
                     />
                   )}
@@ -394,6 +397,7 @@ const Form = () => {
               onClick={() => setIsCopied(true)}
             />
           </CopyToClipboard>
+          {/* <UploadFileIcon className="download--icon"></UploadFileIcon> */}
         </div>
       </div>
     </div>
