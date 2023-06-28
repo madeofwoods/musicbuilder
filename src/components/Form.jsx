@@ -125,6 +125,11 @@ const Form = () => {
     }
   }, [isCopied]);
 
+  useEffect(() => {
+    console.log("true", outputData.filter((el) => el.isCorrect).length);
+    console.log("false", outputData.filter((el) => !el.isCorrect).length);
+  }, [outputData]);
+
   const handleAddRow = (beat) => {
     let sClone = [...sData];
     let dClone = [...dData];
@@ -402,6 +407,31 @@ const Form = () => {
         </div>
       </div>
       <div className="output--container">
+        <div className="count">
+          <div className="count--element">
+            <div>Correct:</div>
+            <div>{outputData.filter((el) => el.isCorrect).length}</div>
+          </div>
+          <div className="count--element">
+            <div>Incorrect:</div>
+            <div>{outputData.filter((el) => !el.isCorrect).length}</div>
+          </div>
+          <div className="count--element">
+            <div>Proportion:</div>
+            {outputData.length > 0 ? (
+              <div>
+                {(
+                  (outputData.filter((el) => !el.isCorrect).length * 100) /
+                  (outputData.filter((el) => el.isCorrect).length +
+                    outputData.filter((el) => !el.isCorrect).length)
+                ).toFixed(0)}{" "}
+                %
+              </div>
+            ) : (
+              <div>0 %</div>
+            )}
+          </div>
+        </div>
         <div className="buttons">
           {/* <Button
             number={0.25}
@@ -500,6 +530,7 @@ const Form = () => {
             ></CloseIcon>
             <h2>PASTE LEVEL BELOW</h2>
             <UploadInputWindow
+              spellcheck="false"
               value={formInput}
               onChange={(e) => handleInput(e)}
             ></UploadInputWindow>

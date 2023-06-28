@@ -28,6 +28,22 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+
+.count {
+  width: 400px;
+  background-color: rgb(97, 97, 97);
+  display: flex;
+  gap: 10px;
+  padding: 5px;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.count--element {
+  display: flex;
+  gap: 5px;
 }
 
 .box {
@@ -249,6 +265,8 @@ input[type="number"]::-webkit-outer-spin-button {
 .add--remove {
   display: flex;
   flex-direction: column;
+  width: 30px;
+  align-items: center;
 }
 
 .add--remove--icon {
