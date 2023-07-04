@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import {
   AddRemoveContainer,
+  BarCount,
+  Beat,
   Button,
   FileUpload,
   FileUploadContainer,
@@ -284,6 +286,13 @@ const Form = () => {
         <div className="box">
           <div className="form--container">
             {/* <Margin isShowing={isShowing}></Margin> */}
+            <Margin isShowing={isShowing}>
+              {sData.map((el) => (
+                <BarCount beat={el.beat} key={el.id}>
+                  <Beat className="dbeat">{el.beat / 4 + 1}</Beat>
+                </BarCount>
+              ))}
+            </Margin>
             <div className="row--one">
               {sData.map((el) => (
                 <NoteContainer

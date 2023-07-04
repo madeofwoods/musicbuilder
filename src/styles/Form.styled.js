@@ -49,6 +49,20 @@ export const AddRemoveContainer = styled.div`
     props.beat % 4 == 0 ? "rgb(89, 64, 128, 0.65)" : "none"};
 `;
 
+export const BarCount = styled(AddRemoveContainer)`
+  opacity: ${(props) => (props.beat % 4 == 0 ? 1 : 0)};
+`;
+
+export const Beat = styled.div`
+  color: white;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Note = styled.input`
   background-color: ${(props) =>
     props.color == "" ? "gray" : props.isCorrect ? "#fffcfc" : "#f78989"};
