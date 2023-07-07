@@ -3,7 +3,6 @@ import {
   AddRemoveContainer,
   BarCount,
   Beat,
-  BeatButton,
   BeatInput,
   Button,
   FileUpload,
