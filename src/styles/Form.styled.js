@@ -165,3 +165,56 @@ export const SubmitButton = styled.button`
     background-color: #8b8989;
   }
 `;
+
+export const StartingNoteContainer = styled.div`
+  position: relative;
+  width: 400px;
+  background-color: #6b6a69;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 5px 15px;
+`;
+
+export const BeatInput = styled.input`
+  width: 50px;
+  border: none;
+  text-align: center;
+  background-color: #ffffff;
+  margin-right: auto;
+  border-radius: 2px;
+`;
+
+export const Wrapper = styled.div`
+  position: relative;
+
+  &&:hover .tooltip {
+    display: block;
+  }
+`;
+
+export const Tooltip = styled.div`
+  width: 150px;
+  background-color: rgb(18, 17, 17, 0.7);
+  border-radius: 8px;
+  color: white;
+  position: absolute;
+  left: 150%;
+  top: -70%;
+  transform-origin: center;
+  font-size: 0.7rem;
+  padding: 5px 10px;
+  display: none;
+  text-align: center;
+`;
+
+export const BeatButton = styled(SubmitButton)`
+  border-radius: 2px;
+  font-size: 0.8rem;
+  background-color: #4e4d4d;
+
+  &&:hover {
+    background-color: #000000;
+  }
+`;

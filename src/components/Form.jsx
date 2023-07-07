@@ -3,14 +3,19 @@ import {
   AddRemoveContainer,
   BarCount,
   Beat,
+  BeatButton,
+  BeatInput,
   Button,
   FileUpload,
   FileUploadContainer,
   Margin,
   Note,
   NoteContainer,
+  StartingNoteContainer,
   SubmitButton,
+  Tooltip,
   UploadInputWindow,
+  Wrapper,
 } from "../styles/Form.styled";
 import JSON5 from "json5";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
@@ -36,6 +41,7 @@ const Form = () => {
   const ref = useRef();
   const [highestNoteID, setHighestNoteID] = useState(numberOfNotes);
   const [formInput, setFormInput] = useState("");
+  const [startingBeat, setStartingBeat] = useState(8);
 
   const collectData = (sData, dData, fData) => {
     let sClone = [...sData];
@@ -46,7 +52,7 @@ const Form = () => {
       ...sClone
         .filter((el) => el.value != "")
         .map((el) => ({
-          delay: beats * el.beat + 8,
+          delay: beats * el.beat + Number(startingBeat),
           no: Number(el.value),
           letter: "s",
           isCorrect: el.isCorrect,
@@ -54,7 +60,7 @@ const Form = () => {
       ...dClone
         .filter((el) => el.value != "")
         .map((el) => ({
-          delay: beats * el.beat + 8,
+          delay: beats * el.beat + Number(startingBeat),
           no: Number(el.value),
           letter: "d",
           isCorrect: el.isCorrect,
@@ -62,7 +68,7 @@ const Form = () => {
       ...fClone
         .filter((el) => el.value != "")
         .map((el) => ({
-          delay: beats * el.beat + 8,
+          delay: beats * el.beat + Number(startingBeat),
           no: Number(el.value),
           letter: "f",
           isCorrect: el.isCorrect,
@@ -93,7 +99,7 @@ const Form = () => {
 
   useEffect(() => {
     setOutputData(collectData(sData, dData, fData));
-  }, [sData, dData, fData, beats]);
+  }, [sData, dData, fData, beats, startingBeat]);
 
   const handleChange = (e, id, data, setData) => {
     const clone = [...data];
@@ -441,15 +447,21 @@ const Form = () => {
             )}
           </div>
         </div>
+        <StartingNoteContainer>
+          <div>Start Beat: </div>
+          <Wrapper>
+            <BeatInput
+              type="number"
+              value={startingBeat}
+              onChange={(e) => setStartingBeat(e.target.value)}
+            />
+
+            <Tooltip className="tooltip">
+              Beats start at 0. Recommend using 8. Use a power of 4.{" "}
+            </Tooltip>
+          </Wrapper>
+        </StartingNoteContainer>
         <div className="buttons">
-          {/* <Button
-            number={0.25}
-            current={beats}
-            className="button"
-            onClick={() => setBeats(0.25)}
-          >
-            0.25
-          </Button> */}
           <Button
             number={0.5}
             current={beats}
