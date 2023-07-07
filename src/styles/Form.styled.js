@@ -174,7 +174,7 @@ export const StartingNoteContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 5px 15px;
+  padding: 7px 15px;
 `;
 
 export const BeatInput = styled.input`
@@ -188,6 +188,8 @@ export const BeatInput = styled.input`
 
 export const Wrapper = styled.div`
   position: relative;
+  display: flex;
+  align-items: center;
 
   &&:hover .tooltip {
     display: block;
