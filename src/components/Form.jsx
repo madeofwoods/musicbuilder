@@ -216,7 +216,10 @@ const Form = () => {
       .reduce(
         (obj, item) => ({
           ...obj,
-          [item.delay - 8]: { value: item.no, isCorrect: item.isCorrect },
+          [item.delay - startingBeat]: {
+            value: item.no,
+            isCorrect: item.isCorrect,
+          },
         }),
         {}
       );
@@ -225,7 +228,10 @@ const Form = () => {
       .reduce(
         (obj, item) => ({
           ...obj,
-          [item.delay - 8]: { value: item.no, isCorrect: item.isCorrect },
+          [item.delay - startingBeat]: {
+            value: item.no,
+            isCorrect: item.isCorrect,
+          },
         }),
         {}
       );
@@ -234,7 +240,10 @@ const Form = () => {
       .reduce(
         (obj, item) => ({
           ...obj,
-          [item.delay - 8]: { value: item.no, isCorrect: item.isCorrect },
+          [item.delay - startingBeat]: {
+            value: item.no,
+            isCorrect: item.isCorrect,
+          },
         }),
         {}
       );
