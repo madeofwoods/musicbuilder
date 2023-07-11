@@ -35,7 +35,7 @@ const Form = () => {
   // const [incorrect, setIncorrect] = useState(false);
   const [beats, setBeats] = useState(1);
   // const [numberOfNotes, setNumberOfNotes] = useState(200);
-  const numberOfNotes = 200;
+  const numberOfNotes = 400;
   const [outputData, setOutputData] = useState([]);
   const ref = useRef();
   const [highestNoteID, setHighestNoteID] = useState(numberOfNotes);
