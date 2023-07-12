@@ -64,8 +64,19 @@ export const Beat = styled.div`
 `;
 
 export const Note = styled.input`
-  background-color: ${(props) =>
-    props.color == "" ? "gray" : props.isCorrect ? "#fffcfc" : "#f78989"};
+  background-color: ${(props) => {
+    if (props.color == "") return "gray";
+    else if (props.inputColor != null) return props.inputColor;
+    else if (props.isCorrect) return "#fffcfc";
+    else return "#f78989";
+  }};
+  // props.color == ""
+  //   ? "gray"
+  //   : props.isCorrect && props.inputColor != null
+  //   ? props.inputColor
+  //   : props.isCorrect
+  //   ? "#fffcfc"
+  //   : "#f78989"};
   width: 70px;
   height: 40px;
   color: black;

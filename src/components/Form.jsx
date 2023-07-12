@@ -375,6 +375,7 @@ const Form = () => {
                   <Note
                     color={el.value}
                     isCorrect={el.isCorrect}
+                    inputColor={el.color}
                     type="number"
                     min={0}
                     beat={el.beat}
@@ -408,6 +409,7 @@ const Form = () => {
                   <Note
                     color={el.value}
                     isCorrect={el.isCorrect}
+                    inputColor={el.color}
                     type="number"
                     min={0}
                     beat={el.beat}
@@ -442,6 +444,7 @@ const Form = () => {
                   <Note
                     color={el.value}
                     isCorrect={el.isCorrect}
+                    inputColor={el.color}
                     type="number"
                     min={0}
                     beat={el.beat}
