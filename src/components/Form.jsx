@@ -28,6 +28,11 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import image from "../assets/businessman.png";
 
+const green = "rgb(140, 255, 128)";
+const green2 = "rgb(175, 255, 166)";
+const green3 = "rgb(216, 255, 212)";
+const red = "#de5959";
+
 const Form = () => {
   const [isShowing, setIsShowing] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
@@ -50,28 +55,58 @@ const Form = () => {
     return [
       ...sClone
         .filter((el) => el.value != "")
-        .map((el) => ({
-          delay: beats * el.beat + Number(startingBeat),
-          no: Number(el.value),
-          letter: "s",
-          isCorrect: el.isCorrect,
-        })),
+        .map((el) =>
+          el.color
+            ? {
+                delay: beats * el.beat + Number(startingBeat),
+                no: Number(el.value),
+                letter: "s",
+                isCorrect: el.isCorrect,
+                color: el.color,
+              }
+            : {
+                delay: beats * el.beat + Number(startingBeat),
+                no: Number(el.value),
+                letter: "s",
+                isCorrect: el.isCorrect,
+              }
+        ),
       ...dClone
         .filter((el) => el.value != "")
-        .map((el) => ({
-          delay: beats * el.beat + Number(startingBeat),
-          no: Number(el.value),
-          letter: "d",
-          isCorrect: el.isCorrect,
-        })),
+        .map((el) =>
+          el.color
+            ? {
+                delay: beats * el.beat + Number(startingBeat),
+                no: Number(el.value),
+                letter: "d",
+                isCorrect: el.isCorrect,
+                color: el.color,
+              }
+            : {
+                delay: beats * el.beat + Number(startingBeat),
+                no: Number(el.value),
+                letter: "d",
+                isCorrect: el.isCorrect,
+              }
+        ),
       ...fClone
         .filter((el) => el.value != "")
-        .map((el) => ({
-          delay: beats * el.beat + Number(startingBeat),
-          no: Number(el.value),
-          letter: "f",
-          isCorrect: el.isCorrect,
-        })),
+        .map((el) =>
+          el.color
+            ? {
+                delay: beats * el.beat + Number(startingBeat),
+                no: Number(el.value),
+                letter: "f",
+                isCorrect: el.isCorrect,
+                color: el.color,
+              }
+            : {
+                delay: beats * el.beat + Number(startingBeat),
+                no: Number(el.value),
+                letter: "f",
+                isCorrect: el.isCorrect,
+              }
+        ),
     ].sort((a, b) => a.delay - b.delay);
   };
 
@@ -83,6 +118,8 @@ const Form = () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
+  // loadnotes -- function to populate the empty notes to map to
 
   const loadNotes = () => {
     const output = [];
@@ -211,6 +248,8 @@ const Form = () => {
     let fNew = loadNotes();
     let formData = JSON5.parse(formInput);
 
+    console.log("formData", formData);
+
     let sFormData = formData
       .filter((el) => el.letter == "s")
       .reduce(
@@ -219,6 +258,7 @@ const Form = () => {
           [item.delay - startingBeat]: {
             value: item.no,
             isCorrect: item.isCorrect,
+            color: item.color != undefined ? item.color : null,
           },
         }),
         {}
@@ -231,6 +271,7 @@ const Form = () => {
           [item.delay - startingBeat]: {
             value: item.no,
             isCorrect: item.isCorrect,
+            color: item.color != undefined ? item.color : null,
           },
         }),
         {}
@@ -243,10 +284,13 @@ const Form = () => {
           [item.delay - startingBeat]: {
             value: item.no,
             isCorrect: item.isCorrect,
+            color: item.color != undefined ? item.color : null,
           },
         }),
         {}
       );
+
+    console.log("dformdata", dFormData);
 
     sNew = sNew.map((el) =>
       sFormData.hasOwnProperty(el.beat)
@@ -255,6 +299,10 @@ const Form = () => {
             isCorrect: sFormData[el.beat].isCorrect,
             beat: el.beat,
             value: sFormData[el.beat].value,
+            color:
+              sFormData[el.beat].color != null
+                ? sFormData[el.beat].color
+                : null,
           }
         : el
     );
@@ -265,6 +313,10 @@ const Form = () => {
             isCorrect: dFormData[el.beat].isCorrect,
             beat: el.beat,
             value: dFormData[el.beat].value,
+            color:
+              dFormData[el.beat].color != null
+                ? dFormData[el.beat].color
+                : null,
           }
         : el
     );
@@ -275,10 +327,15 @@ const Form = () => {
             isCorrect: fFormData[el.beat].isCorrect,
             beat: el.beat,
             value: fFormData[el.beat].value,
+            color:
+              fFormData[el.beat].color != null
+                ? fFormData[el.beat].color
+                : null,
           }
         : el
     );
 
+    console.log(dNew);
     setSData([...sNew]);
     setDData([...dNew]);
     setFData([...fNew]);
