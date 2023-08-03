@@ -28,24 +28,18 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import image from "../assets/businessman.png";
 
-const green = "rgb(140, 255, 128)";
-const green2 = "rgb(175, 255, 166)";
-const green3 = "rgb(216, 255, 212)";
-const red = "#de5959";
+const numberOfNotes = 400;
 
 const Form = () => {
   const [isShowing, setIsShowing] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
   const [popupActive, setPopupActive] = useState(false);
-  // const [incorrect, setIncorrect] = useState(false);
   const [beats, setBeats] = useState(1);
-  // const [numberOfNotes, setNumberOfNotes] = useState(200);
-  const numberOfNotes = 400;
   const [outputData, setOutputData] = useState([]);
-  const ref = useRef();
   const [highestNoteID, setHighestNoteID] = useState(numberOfNotes);
   const [formInput, setFormInput] = useState("");
   const [startingBeat, setStartingBeat] = useState(8);
+  const ref = useRef();
 
   const collectData = (sData, dData, fData) => {
     let sClone = [...sData];
@@ -149,9 +143,7 @@ const Form = () => {
   const handleClick = (e, id, data, setData) => {
     const clone = [...data];
 
-    clone.forEach(
-      (el) => (el.isCorrect = el.id == id ? !el.isCorrect : el.isCorrect)
-    );
+    clone.forEach((el) => (el.isCorrect = el.id == id ? !el.isCorrect : el.isCorrect));
     setData(clone);
   };
 
@@ -168,11 +160,6 @@ const Form = () => {
       }, 2000);
     }
   }, [isCopied]);
-
-  useEffect(() => {
-    console.log("true", outputData.filter((el) => el.isCorrect).length);
-    console.log("false", outputData.filter((el) => !el.isCorrect).length);
-  }, [outputData]);
 
   const handleAddRow = (beat) => {
     let sClone = [...sData];
@@ -216,8 +203,6 @@ const Form = () => {
       ].sort((a, b) => b.beat - a.beat)
     );
     setHighestNoteID((prev) => prev + 1);
-    console.log(sData);
-    console.log(highestNoteID);
   };
 
   const handleRemoveRow = (beat) => {
@@ -237,7 +222,6 @@ const Form = () => {
     setSData([...sClone]);
     setDData(dClone);
     setFData(fClone);
-    console.log(sClone);
   };
 
   const handleSubmit = () => {
@@ -247,8 +231,6 @@ const Form = () => {
     let dNew = loadNotes();
     let fNew = loadNotes();
     let formData = JSON5.parse(formInput);
-
-    console.log("formData", formData);
 
     let sFormData = formData
       .filter((el) => el.letter == "s")
@@ -290,52 +272,40 @@ const Form = () => {
         {}
       );
 
-    console.log("dformdata", dFormData);
-
     sNew = sNew.map((el) =>
-      sFormData.hasOwnProperty(el.beat)
+      Object.prototype.hasOwnProperty.call(sFormData, el.beat)
         ? {
             id: el.id,
             isCorrect: sFormData[el.beat].isCorrect,
             beat: el.beat,
             value: sFormData[el.beat].value,
-            color:
-              sFormData[el.beat].color != null
-                ? sFormData[el.beat].color
-                : null,
+            color: sFormData[el.beat].color != null ? sFormData[el.beat].color : null,
           }
         : el
     );
     dNew = dNew.map((el) =>
-      dFormData.hasOwnProperty(el.beat)
+      Object.prototype.hasOwnProperty.call(dFormData, el.beat)
         ? {
             id: el.id,
             isCorrect: dFormData[el.beat].isCorrect,
             beat: el.beat,
             value: dFormData[el.beat].value,
-            color:
-              dFormData[el.beat].color != null
-                ? dFormData[el.beat].color
-                : null,
+            color: dFormData[el.beat].color != null ? dFormData[el.beat].color : null,
           }
         : el
     );
     fNew = fNew.map((el) =>
-      fFormData.hasOwnProperty(el.beat)
+      Object.prototype.hasOwnProperty.call(fFormData, el.beat)
         ? {
             id: el.id,
             isCorrect: fFormData[el.beat].isCorrect,
             beat: el.beat,
             value: fFormData[el.beat].value,
-            color:
-              fFormData[el.beat].color != null
-                ? fFormData[el.beat].color
-                : null,
+            color: fFormData[el.beat].color != null ? fFormData[el.beat].color : null,
           }
         : el
     );
 
-    console.log(dNew);
     setSData([...sNew]);
     setDData([...dNew]);
     setFData([...fNew]);
@@ -356,7 +326,6 @@ const Form = () => {
       <div className="box--container">
         <div className="box">
           <div className="form--container">
-            {/* <Margin isShowing={isShowing}></Margin> */}
             <Margin isShowing={isShowing}>
               {sData.map((el) => (
                 <BarCount beat={el.beat} key={el.id}>
@@ -366,12 +335,7 @@ const Form = () => {
             </Margin>
             <div className="row--one">
               {sData.map((el) => (
-                <NoteContainer
-                  beat={el.beat}
-                  key={el.id}
-                  id={el.id}
-                  newRowAdded={highestNoteID}
-                >
+                <NoteContainer beat={el.beat} key={el.id} id={el.id} newRowAdded={highestNoteID}>
                   <Note
                     color={el.value}
                     isCorrect={el.isCorrect}
@@ -400,12 +364,7 @@ const Form = () => {
             </div>
             <div className="row--two">
               {dData.map((el) => (
-                <NoteContainer
-                  beat={el.beat}
-                  key={el.id}
-                  id={el.id}
-                  newRowAdded={highestNoteID}
-                >
+                <NoteContainer beat={el.beat} key={el.id} id={el.id} newRowAdded={highestNoteID}>
                   <Note
                     color={el.value}
                     isCorrect={el.isCorrect}
@@ -426,7 +385,6 @@ const Form = () => {
                   ) : (
                     <ToggleOnIcon
                       className="toggle--icon"
-                      up
                       onClick={(e) => handleClick(e, el.id, dData, setDData)}
                     />
                   )}
@@ -435,12 +393,7 @@ const Form = () => {
             </div>
             <div className="row--three">
               {fData.map((el) => (
-                <NoteContainer
-                  beat={el.beat}
-                  key={el.id}
-                  id={el.id}
-                  newRowAdded={highestNoteID}
-                >
+                <NoteContainer beat={el.beat} key={el.id} id={el.id} newRowAdded={highestNoteID}>
                   <Note
                     color={el.value}
                     isCorrect={el.isCorrect}
@@ -518,63 +471,31 @@ const Form = () => {
         <StartingNoteContainer>
           <div>Start Beat: </div>
           <Wrapper>
-            <BeatInput
-              type="number"
-              value={startingBeat}
-              onChange={(e) => setStartingBeat(e.target.value)}
-            />
+            <BeatInput type="number" value={startingBeat} onChange={(e) => setStartingBeat(e.target.value)} />
 
-            <Tooltip className="tooltip">
-              Beats start at 0. Recommend using 8. Use a power of 4.{" "}
-            </Tooltip>
+            <Tooltip className="tooltip">Beats start at 0. Recommend using 8. Use a power of 4. </Tooltip>
           </Wrapper>
         </StartingNoteContainer>
         <div className="buttons">
-          <Button
-            number={0.5}
-            current={beats}
-            className="button"
-            onClick={() => setBeats(0.5)}
-          >
+          <Button number={0.5} current={beats} className="button" onClick={() => setBeats(0.5)}>
             0.5
           </Button>
-          <Button
-            number={1}
-            current={beats}
-            className="button"
-            onClick={() => setBeats(1)}
-          >
+          <Button number={1} current={beats} className="button" onClick={() => setBeats(1)}>
             1
           </Button>
-          <Button
-            number={2}
-            current={beats}
-            className="button"
-            onClick={() => setBeats(2)}
-          >
+          <Button number={2} current={beats} className="button" onClick={() => setBeats(2)}>
             2
           </Button>
-          <Button
-            number={4}
-            current={beats}
-            className="button"
-            onClick={() => setBeats(4)}
-          >
+          <Button number={4} current={beats} className="button" onClick={() => setBeats(4)}>
             4
           </Button>
         </div>
         <div className="commands">
           <div className="toggle--text">HIDE</div>
           {isShowing ? (
-            <ToggleOnIcon
-              className="icon"
-              onClick={() => setIsShowing(!isShowing)}
-            />
+            <ToggleOnIcon className="icon" onClick={() => setIsShowing(!isShowing)} />
           ) : (
-            <ToggleOffIcon
-              className="icon"
-              onClick={() => setIsShowing(!isShowing)}
-            />
+            <ToggleOffIcon className="icon" onClick={() => setIsShowing(!isShowing)} />
           )}
           <div className="toggle--text">SHOW</div>
         </div>
@@ -591,32 +512,21 @@ const Form = () => {
         </div>
         <div className="download--icons">
           <a
-            href={`data:text/json;charset=utf-8,${encodeURIComponent(
-              JSON5.stringify(outputData, null, 1)
-            )}`}
+            href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON5.stringify(outputData, null, 1))}`}
             download="rhythm-game-level.json"
           >
             <DownloadIcon className="download--icon" />
           </a>
           <CopyToClipboard text={JSON5.stringify(outputData, null, 0)}>
-            <ContentCopyIcon
-              className="download--icon"
-              onClick={() => setIsCopied(true)}
-            />
+            <ContentCopyIcon className="download--icon" onClick={() => setIsCopied(true)} />
           </CopyToClipboard>
-          <UploadFileIcon
-            className="download--icon"
-            onClick={() => handlePopup()}
-          ></UploadFileIcon>
+          <UploadFileIcon className="download--icon" onClick={() => handlePopup()}></UploadFileIcon>
         </div>
       </div>
       {popupActive && (
         <FileUploadContainer>
           <FileUpload>
-            <CloseIcon
-              className="close--icon"
-              onClick={() => setPopupActive(false)}
-            ></CloseIcon>
+            <CloseIcon className="close--icon" onClick={() => setPopupActive(false)}></CloseIcon>
             <h2>PASTE LEVEL BELOW</h2>
             <UploadInputWindow
               spellcheck="false"

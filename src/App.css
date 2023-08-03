@@ -23,7 +23,6 @@ a {
 }
 
 .box--container {
-  /* width: 30%; */
   height: 100%;
   display: flex;
   align-items: center;
@@ -47,7 +46,6 @@ a {
 }
 
 .box {
-  /* width: 400px; */
   height: 800px;
   max-height: 80%;
   overflow-y: scroll;
@@ -115,10 +113,6 @@ a {
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
-  /* position: absolute;
-    left: 5px; */
-  /* width: 500px;
-    height: 500px; */
   margin: 0;
 }
 
@@ -169,7 +163,6 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 35vh;
   overflow: scroll;
   border: 1px solid rgb(178, 178, 178);
-  /* white-space: pre; */
 }
 
 .icon {

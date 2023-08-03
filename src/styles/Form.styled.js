@@ -4,9 +4,6 @@ const noteAnimation = keyframes`
 0% {
   background-color: #868688
 }
-/* 20% {
-  background-color: #60557d
-} */
 100% {
   background-color: none
 }
@@ -19,12 +16,9 @@ export const NoteContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  /* padding: 5px 0px; */
   height: 50px;
-  background-color: ${(props) =>
-    props.beat % 4 == 0 ? "rgb(89, 64, 128, 0.65)" : "none"};
-  animation-name: ${(props) =>
-    props.newRowAdded === props.id + 1 && noteAnimation};
+  background-color: ${(props) => (props.beat % 4 == 0 ? "rgb(89, 64, 128, 0.65)" : "none")};
+  animation-name: ${(props) => props.newRowAdded === props.id + 1 && noteAnimation};
   animation-duration: 0.8s;
 `;
 
@@ -45,8 +39,7 @@ export const AddRemoveContainer = styled.div`
   width: 30px;
   /* padding: 5px 0px; */
   height: 50px;
-  background-color: ${(props) =>
-    props.beat % 4 == 0 ? "rgb(89, 64, 128, 0.65)" : "none"};
+  background-color: ${(props) => (props.beat % 4 == 0 ? "rgb(89, 64, 128, 0.65)" : "none")};
 `;
 
 export const BarCount = styled(AddRemoveContainer)`
@@ -70,20 +63,11 @@ export const Note = styled.input`
     else if (props.isCorrect) return "#fffcfc";
     else return "#f78989";
   }};
-  // props.color == ""
-  //   ? "gray"
-  //   : props.isCorrect && props.inputColor != null
-  //   ? props.inputColor
-  //   : props.isCorrect
-  //   ? "#fffcfc"
-  //   : "#f78989"};
   width: 70px;
   height: 40px;
   color: black;
   border: ${(props) => (props.beat % 4 == 0 ? "4px solid #b1b1f9" : "none")};
   border: none;
-  /* box-sizing: ${(props) =>
-    props.beat % 4 == 0 ? "content-box" : "border-box"}; */
   border-radius: 3px;
   display: flex;
   align-items: center;
@@ -98,8 +82,7 @@ export const Note = styled.input`
 `;
 
 export const Button = styled.button`
-  background-color: ${(props) =>
-    props.current == props.number ? "#9f9d9d" : "black"};
+  background-color: ${(props) => (props.current == props.number ? "#9f9d9d" : "black")};
   width: 75px;
   height: 40px;
   text-align: center;
@@ -152,9 +135,6 @@ export const UploadInputWindow = styled.textarea`
   padding: 15px 5px;
   color: white;
   text-align: center;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: start; */
 `;
 
 export const SubmitButton = styled.button`
