@@ -75,7 +75,8 @@ a {
 
 .row--one,
 .row--two,
-.row--three {
+.row--three,
+.row--four {
   /* flex: 0, 0, calc(100%/3); */
   margin-top: 20px;
   width: 133px;

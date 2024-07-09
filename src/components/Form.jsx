@@ -34,74 +34,95 @@ const Form = () => {
   const [isShowing, setIsShowing] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
   const [popupActive, setPopupActive] = useState(false);
-  const [beats, setBeats] = useState(1);
   const [outputData, setOutputData] = useState([]);
   const [highestNoteID, setHighestNoteID] = useState(numberOfNotes);
   const [formInput, setFormInput] = useState("");
-  const [startingBeat, setStartingBeat] = useState(8);
   const ref = useRef();
 
-  const collectData = (sData, dData, fData) => {
+  const collectData = (aData, sData, dData, fData) => {
+    let aClone = [...aData];
     let sClone = [...sData];
     let dClone = [...dData];
     let fClone = [...fData];
 
     return [
-      ...sClone
+      ...aClone
         .filter((el) => el.value != "")
-        .map((el) =>
+        .map((el, index) =>
           el.color
             ? {
-                delay: beats * el.beat + Number(startingBeat),
-                no: Number(el.value),
-                letter: "s",
+                beat: el.beat,
+                numberValue: Number(el.value),
+                lane: 0,
                 isCorrect: el.isCorrect,
                 color: el.color,
               }
             : {
-                delay: beats * el.beat + Number(startingBeat),
-                no: Number(el.value),
-                letter: "s",
+                beat: el.beat,
+                numberValue: Number(el.value),
+                lane: 0,
+                isCorrect: el.isCorrect,
+              }
+        ),
+      ...sClone
+        .filter((el) => el.value != "")
+        .map((el, index) =>
+          el.color
+            ? {
+                beat: el.beat,
+                numberValue: Number(el.value),
+                lane: 1,
+                isCorrect: el.isCorrect,
+                color: el.color,
+              }
+            : {
+                beat: el.beat,
+                numberValue: Number(el.value),
+                lane: 1,
                 isCorrect: el.isCorrect,
               }
         ),
       ...dClone
         .filter((el) => el.value != "")
-        .map((el) =>
+        .map((el, index) =>
           el.color
             ? {
-                delay: beats * el.beat + Number(startingBeat),
-                no: Number(el.value),
-                letter: "d",
+                beat: el.beat,
+                numberValue: Number(el.value),
+                lane: 2,
                 isCorrect: el.isCorrect,
                 color: el.color,
               }
             : {
-                delay: beats * el.beat + Number(startingBeat),
-                no: Number(el.value),
-                letter: "d",
+                beat: el.beat,
+                numberValue: Number(el.value),
+                lane: 2,
                 isCorrect: el.isCorrect,
               }
         ),
       ...fClone
         .filter((el) => el.value != "")
-        .map((el) =>
+        .map((el, index) =>
           el.color
             ? {
-                delay: beats * el.beat + Number(startingBeat),
-                no: Number(el.value),
-                letter: "f",
+                beat: el.beat,
+                numberValue: Number(el.value),
+                lane: 3,
                 isCorrect: el.isCorrect,
                 color: el.color,
               }
             : {
-                delay: beats * el.beat + Number(startingBeat),
-                no: Number(el.value),
-                letter: "f",
+                beat: el.beat,
+                numberValue: Number(el.value),
+                lane: 3,
                 isCorrect: el.isCorrect,
               }
         ),
-    ].sort((a, b) => a.delay - b.delay);
+    ].sort((a, b) => a.beat - b.beat)
+    .map((note, index) => ({
+      id: index,
+      ...note,
+    }))
   };
 
   useEffect(() => {
@@ -118,18 +139,19 @@ const Form = () => {
   const loadNotes = () => {
     const output = [];
     for (let i = 0; i < numberOfNotes; i++) {
-      output.unshift({ id: i, isCorrect: true, beat: beats * i, value: "" });
+      output.unshift({ id: i, isCorrect: true, beat: i, value: "" });
     }
     return output;
   };
 
+  const [aData, setAData] = useState(loadNotes());
   const [sData, setSData] = useState(loadNotes());
   const [dData, setDData] = useState(loadNotes());
   const [fData, setFData] = useState(loadNotes());
 
   useEffect(() => {
-    setOutputData(collectData(sData, dData, fData));
-  }, [sData, dData, fData, beats, startingBeat]);
+    setOutputData(collectData(aData, sData, dData, fData));
+  }, [aData, sData, dData, fData]);
 
   const handleChange = (e, id, data, setData) => {
     const clone = [...data];
@@ -162,13 +184,26 @@ const Form = () => {
   }, [isCopied]);
 
   const handleAddRow = (beat) => {
+    let aClone = [...aData];
     let sClone = [...sData];
     let dClone = [...dData];
     let fClone = [...fData];
 
+    aClone.forEach((el) => (el.beat = el.beat > beat ? el.beat + 1 : el.beat));
     sClone.forEach((el) => (el.beat = el.beat > beat ? el.beat + 1 : el.beat));
     dClone.forEach((el) => (el.beat = el.beat > beat ? el.beat + 1 : el.beat));
     fClone.forEach((el) => (el.beat = el.beat > beat ? el.beat + 1 : el.beat));
+    setAData(
+      [
+        ...aClone,
+        {
+          id: highestNoteID,
+          isCorrect: true,
+          beat: beat + 1,
+          value: "",
+        },
+      ].sort((a, b) => b.beat - a.beat)
+    );
     setSData(
       [
         ...sClone,
@@ -206,9 +241,13 @@ const Form = () => {
   };
 
   const handleRemoveRow = (beat) => {
+    let aClone = [...sData];
     let sClone = [...sData];
     let dClone = [...dData];
     let fClone = [...fData];
+
+    aClone.splice(aClone.length - 1 - beat, 1);
+    aClone.forEach((el) => (el.beat = el.beat > beat ? el.beat - 1 : el.beat));
 
     sClone.splice(sClone.length - 1 - beat, 1);
     sClone.forEach((el) => (el.beat = el.beat > beat ? el.beat - 1 : el.beat));
@@ -219,6 +258,7 @@ const Form = () => {
     fClone.splice(fClone.length - 1 - beat, 1);
     fClone.forEach((el) => (el.beat = el.beat > beat ? el.beat - 1 : el.beat));
 
+    setAData(aClone);
     setSData([...sClone]);
     setDData(dClone);
     setFData(fClone);
@@ -226,19 +266,32 @@ const Form = () => {
 
   const handleSubmit = () => {
     setPopupActive(false);
-    setBeats(1);
+    let aNew = loadNotes();
     let sNew = loadNotes();
     let dNew = loadNotes();
     let fNew = loadNotes();
     let formData = JSON5.parse(formInput);
 
-    let sFormData = formData
-      .filter((el) => el.letter == "s")
+    let aFormData = formData
+      .filter((el) => el.lane === 0)
       .reduce(
         (obj, item) => ({
           ...obj,
-          [item.delay - startingBeat]: {
-            value: item.no,
+          [item.beat]: {
+            numberValue: item.numberValue,
+            isCorrect: item.isCorrect,
+            color: item.color != undefined ? item.color : null,
+          },
+        }),
+        {}
+      );
+    let sFormData = formData
+      .filter((el) => el.lane === 1)
+      .reduce(
+        (obj, item) => ({
+          ...obj,
+          [item.beat]: {
+            numberValue: item.numberValue,
             isCorrect: item.isCorrect,
             color: item.color != undefined ? item.color : null,
           },
@@ -246,12 +299,12 @@ const Form = () => {
         {}
       );
     let dFormData = formData
-      .filter((el) => el.letter == "d")
+      .filter((el) => el.lane === 2)
       .reduce(
         (obj, item) => ({
           ...obj,
-          [item.delay - startingBeat]: {
-            value: item.no,
+          [item.beat]: {
+            numberValue: item.numberValue,
             isCorrect: item.isCorrect,
             color: item.color != undefined ? item.color : null,
           },
@@ -259,12 +312,12 @@ const Form = () => {
         {}
       );
     let fFormData = formData
-      .filter((el) => el.letter == "f")
+      .filter((el) => el.lane === 3)
       .reduce(
         (obj, item) => ({
           ...obj,
-          [item.delay - startingBeat]: {
-            value: item.no,
+          [item.beat]: {
+            numberValue: item.numberValue,
             isCorrect: item.isCorrect,
             color: item.color != undefined ? item.color : null,
           },
@@ -272,13 +325,26 @@ const Form = () => {
         {}
       );
 
+    console.log({ aFormData });
+
+    aNew = aNew.map((el) =>
+      Object.prototype.hasOwnProperty.call(aFormData, el.beat)
+        ? {
+            id: el.id,
+            isCorrect: aFormData[el.beat].isCorrect,
+            beat: el.beat,
+            value: aFormData[el.beat].numberValue,
+            color: aFormData[el.beat].color != null ? aFormData[el.beat].color : null,
+          }
+        : el
+    );
     sNew = sNew.map((el) =>
       Object.prototype.hasOwnProperty.call(sFormData, el.beat)
         ? {
             id: el.id,
             isCorrect: sFormData[el.beat].isCorrect,
             beat: el.beat,
-            value: sFormData[el.beat].value,
+            value: sFormData[el.beat].numberValue,
             color: sFormData[el.beat].color != null ? sFormData[el.beat].color : null,
           }
         : el
@@ -289,7 +355,7 @@ const Form = () => {
             id: el.id,
             isCorrect: dFormData[el.beat].isCorrect,
             beat: el.beat,
-            value: dFormData[el.beat].value,
+            value: dFormData[el.beat].numberValue,
             color: dFormData[el.beat].color != null ? dFormData[el.beat].color : null,
           }
         : el
@@ -300,12 +366,15 @@ const Form = () => {
             id: el.id,
             isCorrect: fFormData[el.beat].isCorrect,
             beat: el.beat,
-            value: fFormData[el.beat].value,
+            value: fFormData[el.beat].numberValue,
             color: fFormData[el.beat].color != null ? fFormData[el.beat].color : null,
           }
         : el
     );
 
+    console.log({ aNew })
+
+    setAData([...aNew]);
     setSData([...sNew]);
     setDData([...dNew]);
     setFData([...fNew]);
@@ -313,13 +382,13 @@ const Form = () => {
 
   const handleInput = (e) => {
     setFormInput(e.target.value);
-    setBeats(1);
   };
 
   const handlePopup = () => {
     setPopupActive(true);
-    setBeats(1);
   };
+
+  console.log({ aData });
 
   return (
     <div className="Form">
@@ -327,13 +396,42 @@ const Form = () => {
         <div className="box">
           <div className="form--container">
             <Margin isShowing={isShowing}>
-              {sData.map((el) => (
+              {aData.map((el) => (
                 <BarCount beat={el.beat} key={el.id}>
                   <Beat className="dbeat">{el.beat / 4 + 1}</Beat>
                 </BarCount>
               ))}
             </Margin>
             <div className="row--one">
+              {aData.map((el) => (
+                <NoteContainer beat={el.beat} key={el.id} id={el.id} newRowAdded={highestNoteID}>
+                  <Note
+                    color={el.value}
+                    isCorrect={el.isCorrect}
+                    inputColor={el.color}
+                    type="number"
+                    min={0}
+                    beat={el.beat}
+                    className="input"
+                    value={el.value}
+                    onWheel={(event) => event.currentTarget.blur()}
+                    onChange={(e) => handleChange(e, el.id, aData, setAData)}
+                  />
+                  {!isShowing ? null : el.isCorrect ? (
+                    <ToggleOffIcon
+                      className="toggle--icon"
+                      onClick={(e) => handleClick(e, el.id, aData, setAData)}
+                    />
+                  ) : (
+                    <ToggleOnIcon
+                      className="toggle--icon"
+                      onClick={(e) => handleClick(e, el.id, aData, setAData)}
+                    />
+                  )}
+                </NoteContainer>
+              ))}
+            </div>
+            <div className="row--two">
               {sData.map((el) => (
                 <NoteContainer beat={el.beat} key={el.id} id={el.id} newRowAdded={highestNoteID}>
                   <Note
@@ -362,7 +460,7 @@ const Form = () => {
                 </NoteContainer>
               ))}
             </div>
-            <div className="row--two">
+            <div className="row--three">
               {dData.map((el) => (
                 <NoteContainer beat={el.beat} key={el.id} id={el.id} newRowAdded={highestNoteID}>
                   <Note
@@ -391,7 +489,7 @@ const Form = () => {
                 </NoteContainer>
               ))}
             </div>
-            <div className="row--three">
+            <div className="row--four">
               {fData.map((el) => (
                 <NoteContainer beat={el.beat} key={el.id} id={el.id} newRowAdded={highestNoteID}>
                   <Note
@@ -468,28 +566,6 @@ const Form = () => {
             )}
           </div>
         </div>
-        <StartingNoteContainer>
-          <div>Start Beat: </div>
-          <Wrapper>
-            <BeatInput type="number" value={startingBeat} onChange={(e) => setStartingBeat(e.target.value)} />
-
-            <Tooltip className="tooltip">Beats start at 0. Recommend using 8. Use a power of 4. </Tooltip>
-          </Wrapper>
-        </StartingNoteContainer>
-        <div className="buttons">
-          <Button number={0.5} current={beats} className="button" onClick={() => setBeats(0.5)}>
-            0.5
-          </Button>
-          <Button number={1} current={beats} className="button" onClick={() => setBeats(1)}>
-            1
-          </Button>
-          <Button number={2} current={beats} className="button" onClick={() => setBeats(2)}>
-            2
-          </Button>
-          <Button number={4} current={beats} className="button" onClick={() => setBeats(4)}>
-            4
-          </Button>
-        </div>
         <div className="commands">
           <div className="toggle--text">HIDE</div>
           {isShowing ? (
@@ -512,7 +588,7 @@ const Form = () => {
         </div>
         <div className="download--icons">
           <a
-            href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON5.stringify(outputData, null, 1))}`}
+            href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON5.stringify(outputData, null, 2))}`}
             download="rhythm-game-level.json"
           >
             <DownloadIcon className="download--icon" />
